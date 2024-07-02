@@ -11,10 +11,10 @@ rrw_json=$HOME/.config/rrw/games.json
 
 # Check games.json existence. If it exists, check that it is not empty
 if [ ! -f "$rrw_json" ]; then
-	echo '"games.json" not found. Generate it using "rrw-jsongen.sh".'
+	echo '"games.json" not found. Generate it using the "rrw-jsongen" utility.'
 	exit 1
 elif [[ -z $(grep '[^[:space:]]' $rrw_json) ]]; then
-	echo '"games.json" is empty. Generate a valid file with "rrw-jsongen.sh".'
+	echo '"games.json" is empty. Generate a valid file with the "rrw-jsongen" utility.'
 	exit 1
 fi
 
