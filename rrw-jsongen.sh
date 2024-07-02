@@ -22,6 +22,10 @@ fi
 
 rrw_dir=$HOME/.config/rrw/
 
+if [ ! -d "$rrw_dir" ]; then
+	mkdir $rrw_dir
+fi
+
 touch $rrw_dir/games.json
 
 rrw_json=$rrw_dir/games.json
