@@ -11,7 +11,7 @@ help() {
 	exit 0
 }
 
-if [ -z "$@" ]; then
+if [[ -z "$@" ]]; then
 	echo "No games provided, please rerun this command with -h, --help".
 	exit 1
 fi
