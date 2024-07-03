@@ -13,7 +13,7 @@ Elden Ring's DLC Shadow of the Erdtree launched very recently and it's been a wh
 ## Setup
 So far, this piece of software has been tested only in my machine running Arch Linux 6.9.7.
 
-This repository contains two main scripts: `rrw.sh`l and `rrw-jsongen.sh`.
+This repository contains two main scripts: `rrw.sh` and `rrw-jsongen.sh`.
 - `rrw.sh` is the tool itself.
 - `rrw-jsongen.sh` is the JSON generator utility for RRW that it will parse to extract process names and, in the future, custom refresh rates for each title, with the default being 60.
 
