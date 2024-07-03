@@ -25,8 +25,6 @@ if ! rm $1/rrw 2>&1 || ! rm $1/rrw-jsongen 2>&1; then
 fi
 printf "${green}[RRW-Uninstall]${normal} Executables removed successfully.\n"
 
-echo "$1 $2"
-
 confirm=""
 # Remove config folder and its contents
 printf "${yellow}[RRW-Uninstall]${normal} Removing config folder...\n"
