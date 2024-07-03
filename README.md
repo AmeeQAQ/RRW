@@ -1,6 +1,6 @@
 <div align="center">
 <h1>Refresh Rate Watcher</h1>
-<h3>A Linux script that monitors any game launched and automatically adjusts the screen's refresh rate</h3>
+<h3>A Linux script that monitors a set of user-defined games and automatically adjusts the screen's refresh rate if one of them is launched</h3>
 </div>
 
 <br>
