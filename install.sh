@@ -6,15 +6,24 @@ red=$(tput setaf 196)
 yellow=$(tput setaf 226)
 green=$(tput setaf 46)
 
-error_msg() {
+# Install RRW and JSON generator
+script_install_dir=/usr/local/bin
+
+error_mngr() {
 	printf "${red}[ERROR]${normal} Installation encountered errors during the process, please review terminal's output for further information.\n"
+	echo 'Reverting changes...'
+	bash uninstall.sh "$script_install_dir" "$user_dir"
+	if [ "$?" -eq 1 ]; then
+		echo 'Aborted.'
+		exit 1
+	else
+		echo 'Changes reverted.'
+		exit 0
+	fi
 }
 
 root_flag=1
 user_dir=""
-
-# Install RRW and JSON generator
-script_install_dir=/usr/local/bin
 
 if [ "$EUID" -ne 0 ]; then
 	printf "${yellow}[WARNING]${normal} You are NOT running this script as root. The default location for RRW to be installed requires root privileges. Rerun this script as root or change the install location to a folder in your PATH that's under your home directory.\n"
@@ -28,13 +37,13 @@ fi
 
 printf "${green}[RRW]${normal} Installing rrw.sh under %s\n" "$script_install_dir"
 if ! cp rrw.sh $script_install_dir/rrw 2>&1; then
-	error_msg
+	error_mngr
 	exit 1
 fi
 
 printf "${green}[RRW]${normal} Installing rrw-jsongen.sh under %s\n" "$script_install_dir"
 if ! cp rrw-jsongen.sh $script_install_dir/rrw-jsongen 2>&1; then
-	error_msg
+	error_mngr
 	exit 1
 fi
 
@@ -42,13 +51,13 @@ fi
 if [[ root_flag -eq 0 ]]; then
 	printf "${green}[RRW]${normal} Creating config dir @ %s/.config/\n" "$HOME"
 	if ! mkdir $HOME/.config/rrw 2>&1; then
-		error_msg
+		error_mngr
 		exit 1
 	fi
 else
 	printf "${green}[RRW]${normal} Creating config dir @ %s/.config/\n" "$user_dir"
 	if ! mkdir $user_dir/.config/rrw 2>&1; then
-		error_msg
+		error_mngr
 		exit 1
 	fi
 fi
@@ -56,13 +65,13 @@ fi
 # Place configuration file under RRW's config directory
 printf "${green}[RRW]${normal} Installing configuration file under config dir.\n"
 if [[ root_flag -eq 0 ]]; then
-	if ! cp rrw.conf.example $HOME/.config/rrw/rrw.conf 2>&1; then
-		error_msg
+	if ! cp resources/rrw.conf.example $HOME/.config/rrw/rrw.conf 2>&1; then
+		error_mngr
 		exit 1
 	fi
 else
-	if ! cp rrw.conf.example $user_dir/.config/rrw/rrw.conf 2>&1; then
-		error_msg
+	if ! cp resources/rrw.conf.example $user_dir/.config/rrw/rrw.conf 2>&1; then
+		error_mngr
 		exit 1
 	fi
 fi
