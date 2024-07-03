@@ -6,6 +6,9 @@ if [[ ! -z "$@"  ]]; then
 	exit 1
 fi
 
+# RRW default config dir
+rrw_dir=$HOME/.config/rrw
+
 # RRW default games.json location
 rrw_json=$HOME/.config/rrw/games.json
 
@@ -21,6 +24,10 @@ fi
 detected=""
 
 proc_flag=0
+
+screen_output_name=$(grep "screen_output_name" $rrw_dir/rrw.conf | awk '{print $3}')
+screen_resolution=$(grep "screen_resolution" $rrw_dir/rrw.conf | awk '{print $3}')
+screen_refresh_rate=$(grep "screen_refresh_rate" $rrw_dir/rrw.conf | awk '{print $3}')
 
 mapfile game_list < <(jq '.games[].name' $rrw_json | tr -d '"')
 
@@ -51,7 +58,7 @@ do
 
 	echo "[RRW] Game $detected detected"
 
-	xrandr --output HDMI-0 --mode 1920x1080 --rate 60
+	xrandr --output $screen_output_name --mode $screen_resolution --rate 60
 
 	echo "[RRW] Refresh rate changed"
 
@@ -69,5 +76,5 @@ do
 
 	echo "[RRW] Game $detected closed, reverting refresh rate"
 
-	xrandr --output HDMI-0 --mode 1920x1080 --rate 75
+	xrandr --output $screen_output_name --mode $screen_resolution --rate $screen_refresh_rate
 done
