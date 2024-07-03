@@ -1,0 +1,18 @@
+# 
+# 						RRW's configuration file
+#
+# This file contains some variables necessary for RRW to work
+# Said variables must be changed according to the user's system preferences
+#
+# To check your main screen output's name with xrandr, one would run:
+# 				xrandr --prop
+#
+# There, the primary display, alongside other ports in your GPU, will show up.
+# Be sure to take note of its name, resolution and maximum refresh rate supported,
+# and write them down in their respective variable. There's some placeholder values down below
+# to help users recognise where each of these items should go.
+#
+
+screen_output_name	= HDMI-0
+screen_resolution 	= 1920x1080
+screen_refresh_rate	= 75
