@@ -25,6 +25,9 @@ detected=""
 
 proc_flag=0
 
+session_type = $(echo $XDG_SESSION_TYPE)
+desktop_environment = $(echo $XDG_CURRENT_DESKTOP)
+
 screen_output_name=$(grep "screen_output_name" $rrw_dir/rrw.conf | awk '{print $3}')
 screen_resolution=$(grep "screen_resolution" $rrw_dir/rrw.conf | awk '{print $3}')
 screen_refresh_rate=$(grep "screen_refresh_rate" $rrw_dir/rrw.conf | awk '{print $3}')
@@ -57,8 +60,16 @@ do
 	done
 
 	echo "[RRW] Game $detected detected"
-
-	xrandr --output $screen_output_name --mode $screen_resolution --rate 60
+	
+	if [[ "$session_type" == "wayland" ]]; then
+		if [[ "$desktop_environment" == "KDE" ]]; then
+			kscreen-doctor output.$screen_output_name.mode.$screen_resolution@60
+		else
+			wlr-randr --output $screen_output_name --mode $screen_resolution@60
+		fi
+	else
+		xrandr --output $screen_output_name --mode $screen_resolution --rate 60
+	fi
 
 	echo "[RRW] Refresh rate changed"
 
@@ -76,5 +87,13 @@ do
 
 	echo "[RRW] Game $detected closed, reverting refresh rate"
 
-	xrandr --output $screen_output_name --mode $screen_resolution --rate $screen_refresh_rate
+	if [[ "$session_type" == "wayland" ]]; then
+		if [[ "$desktop_environment" == "KDE" ]]; then
+			kscreen-doctor output.$screen_output_name.mode.$screen_resolution@$screen_refresh_rate
+		else
+			wlr-randr --output $screen_output_name --mode $screen_resolution@$screen_refresh_rate
+		fi
+	else
+		xrandr --output $screen_output_name --mode $screen_resolution --rate $screen_refresh_rate
+	fi
 done
