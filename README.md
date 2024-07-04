@@ -11,7 +11,9 @@ Some games have their FPS capped to a certain value, usually 60, due to technica
 Elden Ring's DLC Shadow of the Erdtree launched very recently and it's been a while since I last played ER. After booting it and solving the DLC problem in the most Linux way (creating an empty file inside ER's directory), the game felt very sluggish and definitely not smooth. That's when I remembered almost all FromSoft games are FPS locked due to their engine's physics, and I'm playing on a 75 Hz monitor. Tried setting up some launch options for the game to execute xrandr and change the monitor's refresh rate at launch and exit, but for some reason it wouldn't start. So, since I'm in summer break from university, I decided to build something of my own.
 
 ## Dependencies
-For this tool to work, you will need to have `xrandr` (and, consequently, X.Org display server. See [known limitations](#known-limitations/future-upgrades)) and the command-line tool `jq`, which is the JSON parser used by the script.
+For this tool to work, you will need to have `xrandr` (for X11 sessions) and the command-line tool `jq`, which is the JSON parser used by the script.
+
+For Wayland sessions, see [Wayland support](#wayland-support)
 
 ## Setup
 So far, this piece of software has been tested only in my machine running Arch Linux 6.9.7.
@@ -58,10 +60,18 @@ $ bash service_installer.sh
 
 Needless to say, you are free to add and remove anything you want or need to better suit your own needs. This is a script I did to fix my own problem and I'm sharing it because I think it could be useful to others, be it as it is or as your own modified version. This is open and free software.
 
+## Wayland support
+Depending on the desktop enviroment you are using, the wayland compositor might be one or the other. While in X11 `xrandr` works for any DE, in Wayland, every DE or WM has its own compositor or uses wlroots. I expect wlroots to be the most used library, which allows for `wlr-randr` rto be the main dependency/tool for most of the environments, while using specific tools provided by the DEs, like `kscreen-doctor`, or community-driven tools like `gnome-randr-rust`.
+
+Nevertheless, as more DEs start adopting Wayland as their main display server, or offer some solid support for it, I'll be filling up this list with the added dependencies for Wayland sessions:
+- KDE: `kscreen-doctor`
+- Gnome: [gnome-randr-rust](https://github.com/maxwellainatchi/gnome-randr-rust)
+- wlroots compositors (Hyprland, sway,...): [wlr-randr](https://sr.ht/~emersion/wlr-randr/)
+
 ## Known limitations/future upgrades
 This package is functional but still early in development. Thus, compatibility errors and unexpected bugs may come up the more the package is used. For now, some of its limitations are:
 - No Wayland support (script uses xrandr for screen mngmnt).
-- ~Refresh rate only gets lowered to 60~ Most monitors can't go lower than 60 Hz.
+- ~Refresh rate only gets lowered to 60~ Most monitors can't go lower than 60 Hz, and if they can, it probably doesn't matter for games that are locked at 30 FPS, which would be the other use case for this script.
 - Untested with multiple displays.
 
 All of them will, hopefully, be addressed in the near future. 
