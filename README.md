@@ -61,7 +61,7 @@ $ bash service_installer.sh
 Needless to say, you are free to add and remove anything you want or need to better suit your own needs. This is a script I did to fix my own problem and I'm sharing it because I think it could be useful to others, be it as it is or as your own modified version. This is open and free software.
 
 ## Wayland support
-Depending on the desktop enviroment you are using, the wayland compositor might be one or the other. While in X11 `xrandr` works for any DE, in Wayland, every DE or WM has its own compositor or uses wlroots. I expect wlroots to be the most used library, which allows for `wlr-randr` rto be the main dependency/tool for most of the environments, while using specific tools provided by the DEs, like `kscreen-doctor`, or community-driven tools like `gnome-randr-rust`.
+Depending on the desktop enviroment you are using, the wayland compositor might be one or the other. While in X11 `xrandr` works for any DE, in Wayland, every DE or WM has its own compositor or uses [wlroots](https://gitlab.freedesktop.org/wlroots/wlroots). I expect wlroots to be the most used library, which allows for `wlr-randr` to be the main dependency/tool for most of the environments, while using specific tools provided by the DEs, like `kscreen-doctor`, or community-driven ones like `gnome-randr-rust`.
 
 Nevertheless, as more DEs start adopting Wayland as their main display server, or offer some solid support for it, I'll be filling up this list with the added dependencies for Wayland sessions:
 - KDE: `kscreen-doctor`
@@ -70,8 +70,11 @@ Nevertheless, as more DEs start adopting Wayland as their main display server, o
 
 ## Known limitations/future upgrades
 This package is functional but still early in development. Thus, compatibility errors and unexpected bugs may come up the more the package is used. For now, some of its limitations are:
-- No Wayland support (script uses xrandr for screen mngmnt).
-- ~Refresh rate only gets lowered to 60~ Most monitors can't go lower than 60 Hz, and if they can, it probably doesn't matter for games that are locked at 30 FPS, which would be the other use case for this script.
+- ~No Wayland support (script uses xrandr for screen mngmnt).~ See [Wayland support](#wayland-support)
+- ~Refresh rate only gets lowered to 60.~ Most monitors can't go lower than 60 Hz, and if they can, it probably doesn't matter for games that are locked at 30 FPS, which would be the other use case for this script.
 - Untested with multiple displays.
 
-All of them will, hopefully, be addressed in the near future. 
+All of them will, hopefully, be addressed in the near future.
+
+Some planned upgrades are:
+- [ ] Online/offline game database to map game name to process name (would be used by games.json).
