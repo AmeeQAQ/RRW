@@ -61,7 +61,7 @@ $ bash service_installer.sh
 Needless to say, you are free to add and remove anything you want or need to better suit your own needs. This is a script I did to fix my own problem and I'm sharing it because I think it could be useful to others, be it as it is or as your own modified version. This is open and free software.
 
 ## Wayland support
-Depending on the desktop enviroment you are using, the wayland compositor might be one or the other. While in X11 `xrandr` works for any DE, in Wayland this is different, and every DE or WM has its own compositor or uses [wlroots](https://gitlab.freedesktop.org/wlroots/wlroots). I expect wlroots to be the most used library, which allows for `wlr-randr` to be the main dependency/tool for most of the environments, while using specific tools provided by the DEs, like `kscreen-doctor`, or community-driven ones like `gnome-randr-rust`.
+Depending on the desktop enviroment you are using, the wayland compositor might be one or the other. While in X11 `xrandr` works for any DE, in Wayland this is different, and every DE or WM has its own compositor or uses [wlroots](https://gitlab.freedesktop.org/wlroots/wlroots). I expect wlroots to be the most used library, which allows for `wlr-randr` to be the main dependency/tool for most environments, while having the possibility of accomodating the script for other specific tools provided by the DEs, like `kscreen-doctor`, or community-driven ones like `gnome-randr-rust`.
 
 Nevertheless, as more DEs start adopting Wayland as their main display server, or offer some solid support for it, I'll be filling up this list with the added dependencies for Wayland sessions:
 - KDE: `kscreen-doctor`
