@@ -22,18 +22,12 @@ error_mngr() {
 	fi
 }
 
-root_flag=1
-user_dir=""
-
 if [ "$EUID" -ne 0 ]; then
-	printf "${yellow}[WARNING]${normal} You are NOT running this script as root. The default location for RRW to be installed requires root privileges. Rerun this script as root or change the install location to a folder in your PATH that's under your home directory.\n"
-	root_flag=0
+	printf "${red}[ERROR]${normal} This script must be run as root due to it needing to install rrw.sh and rrw-jsongen.sh under /usr/local/bin/. You can modify this script to change this location at your own risk.\n"
+	exit 1
 fi
 
-# If the script is being run as root, fetch the user's home dir
-if [[ root_flag -eq 1 ]]; then
-	user_dir=$(getent passwd $SUDO_USER | cut -d: -f6)
-fi
+user_dir=$(getent passwd $SUDO_USER | cut -d: -f6)
 
 printf "${green}[RRW]${normal} Installing rrw.sh under %s\n" "$script_install_dir"
 if ! cp rrw.sh $script_install_dir/rrw 2>&1; then
@@ -48,32 +42,17 @@ if ! cp rrw-jsongen.sh $script_install_dir/rrw-jsongen 2>&1; then
 fi
 
 # Make RRW's config directory under ~/.config/
-if [[ root_flag -eq 0 ]]; then
-	printf "${green}[RRW]${normal} Creating config dir @ %s/.config/\n" "$HOME"
-	if ! mkdir $HOME/.config/rrw 2>&1; then
-		error_mngr
-		exit 1
-	fi
-else
-	printf "${green}[RRW]${normal} Creating config dir @ %s/.config/\n" "$user_dir"
-	if ! mkdir $user_dir/.config/rrw 2>&1; then
-		error_mngr
-		exit 1
-	fi
+printf "${green}[RRW]${normal} Creating config dir @ %s/.config/\n" "$user_dir"
+if ! mkdir $user_dir/.config/rrw 2>&1; then
+	error_mngr
+	exit 1
 fi
 
 # Place configuration file under RRW's config directory
 printf "${green}[RRW]${normal} Installing configuration file under config dir.\n"
-if [[ root_flag -eq 0 ]]; then
-	if ! cp resources/rrw.conf.example $HOME/.config/rrw/rrw.conf 2>&1; then
-		error_mngr
-		exit 1
-	fi
-else
-	if ! cp resources/rrw.conf.example $user_dir/.config/rrw/rrw.conf 2>&1; then
-		error_mngr
-		exit 1
-	fi
+if ! cp resources/rrw.conf.example $user_dir/.config/rrw/rrw.conf 2>&1; then
+	error_mngr
+	exit 1
 fi
 
 # Change ownership of home installed files to user
