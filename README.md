@@ -61,7 +61,7 @@ Needless to say, you are free to add and remove anything you want or need to bet
 ## Known limitations/future upgrades
 This package is functional but still early in development. Thus, compatibility errors and unexpected bugs may come up the more the package is used. For now, some of its limitations are:
 - No Wayland support (script uses xrandr for screen mngmnt).
-- Refresh rate only gets lowered to 60.
+- ~Refresh rate only gets lowered to 60~ Most monitors can't go lower than 60 Hz.
 - Untested with multiple displays.
 
 All of them will, hopefully, be addressed in the near future. 
