@@ -21,16 +21,20 @@ check_dependencies() {
 			if ! kscreen-doctor --help &>/dev/null 2>&1; then
 				printf "${red}[RRW-Installer]${normal} please install kscreen-doctor with your package manager before proceeding.\n"
 				exit 1
+			else
+				printf "${green}[RRW-Installer] kscreen-doctor verified.${normal}\n"
 			fi
-		elif echo $desktop_env | grep 'GNOME' &>/dev/null 2>&1; then 
+		elif echo "$desktop_env" | grep 'GNOME' &>/dev/null 2>&1; then
 			if ! gnome-randr --help &>/dev/null 2>&1; then
 				printf "${red}[RRW-Installer]${normal} please install gnome-randr from https://github.com/maxwellainatchi/gnome-randr-rust, or the AUR if you use an Arch-based distro, before proceeding.\n"
 				exit 1
+			else
+				printf "${green}[RRW-Installer] gnome-randr verified.${normal}\n"
 			fi
 		elif ! wlr-randr --help &>/dev/null 2>&1; then
 			printf "${red}[RRW-Installer]${normal} please install wlr-randr with your package manager before proceeding.\n"
 		else
-			printf "${green}[RRW-Installer] screen manager verified.${normal}\n"
+			printf "${green}[RRW-Installer] wlr-randr verified.${normal}\n"
 		fi
 	elif ! xrandr --help &>/dev/null 2>&1; then
 		printf "${red}[RRW-Installer]${normal} please install xrandr with your package manager before proceeding.\n"
