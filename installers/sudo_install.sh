@@ -9,10 +9,6 @@ green=$(tput setaf 46)
 # Install RRW and JSON generator
 script_install_dir=/usr/local/bin
 
-# System context
-session_type=$(echo $XDG_SESSION_TYPE)
-desktop_env=$(echo $XDG_CURRENT_DESKTOP)
-
 error_mngr() {
 	printf "${red}[ERROR]${normal} Installation encountered errors during the process, please review terminal's output for further information.\n"
 	echo 'Reverting changes...'
@@ -34,13 +30,13 @@ fi
 user_dir=$(getent passwd $SUDO_USER | cut -d: -f6)
 
 printf "${green}[RRW-Installer]${normal} Installing rrw.sh under %s\n" "$script_install_dir"
-if ! cp rrw.sh $script_install_dir/rrw 2>&1; then
+if ! cp src/rrw.sh $script_install_dir/rrw 2>&1; then
 	error_mngr
 	exit 1
 fi
 
 printf "${green}[RRW-Installer]${normal} Installing rrw-jsongen.sh under %s\n" "$script_install_dir"
-if ! cp rrw-jsongen.sh $script_install_dir/rrw-jsongen 2>&1; then
+if ! cp src/rrw-jsongen.sh $script_install_dir/rrw-jsongen 2>&1; then
 	error_mngr
 	exit 1
 fi
