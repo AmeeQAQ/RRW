@@ -17,6 +17,8 @@ rr_change() {
 	if [[ "$session_type" == "wayland" ]]; then
 		if [[ "$desktop_environment" == "KDE" ]]; then
 			kscreen-doctor output.$screen_output_name.mode.$screen_resolution@$1
+		elif echo "$desktop_environment" | grep "GNOME" &>/dev/null; then
+			gnome-randr modify $screen_output_name --mode $screen_resolution@$1
 		else
 			wlr-randr --output $screen_output_name --mode $screen_resolution@$1
 		fi
