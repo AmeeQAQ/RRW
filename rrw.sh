@@ -1,5 +1,30 @@
 #!/bin/bash
 
+# Function to check for each game inside the game list
+game_check() {
+	for game in ${game_list[@]}
+	do
+		if pgrep -f "$game" &> /dev/null 2>&1; then
+			detected=$game
+			proc_flag=1
+			break
+		fi
+	done
+}
+
+# Function to change the screen's refresh rate
+rr_change() {
+	if [[ "$session_type" == "wayland" ]]; then
+		if [[ "$desktop_environment" == "KDE" ]]; then
+			kscreen-doctor output.$screen_output_name.mode.$screen_resolution@$1
+		else
+			wlr-randr --output $screen_output_name --mode $screen_resolution@$1
+		fi
+	else
+		xrandr --output $screen_output_name --mode $screen_resolution --rate $1
+	fi
+}
+
 # Make sure there's no parameters
 if [[ ! -z "$@"  ]]; then
 	echo "Unknown parameter(s), please run RRW with no parameters."
@@ -25,6 +50,7 @@ detected=""
 
 proc_flag=0
 
+# Gather system data
 session_type = $(echo $XDG_SESSION_TYPE)
 desktop_environment = $(echo $XDG_CURRENT_DESKTOP)
 
@@ -32,68 +58,42 @@ screen_output_name=$(grep "screen_output_name" $rrw_dir/rrw.conf | awk '{print $
 screen_resolution=$(grep "screen_resolution" $rrw_dir/rrw.conf | awk '{print $3}')
 screen_refresh_rate=$(grep "screen_refresh_rate" $rrw_dir/rrw.conf | awk '{print $3}')
 
+# Gather games from games.json
 mapfile game_list < <(jq '.games[].name' $rrw_json | tr -d '"')
 
+# Main loop
 while true
 do
 	echo "[RRW] Looking for games"
-	for game in ${game_list[@]}
-	do
-		if pgrep "$game" &> /dev/null 2>&1; then
-			detected=$game
-			proc_flag=1
-			break
-		fi
-	done
-
+	
+	game_check()
+	
 	while [ $proc_flag -eq 0 ]
 	do
-		for game in ${game_list[@]}
-		do
-			if pgrep "$game" &> /dev/null 2>&1; then
-				detected=$game
-				proc_flag=1
-				break
-			fi
-		done
+		game_check()
 		sleep 1
 	done
 
 	echo "[RRW] Game $detected detected"
-	
-	if [[ "$session_type" == "wayland" ]]; then
-		if [[ "$desktop_environment" == "KDE" ]]; then
-			kscreen-doctor output.$screen_output_name.mode.$screen_resolution@60
-		else
-			wlr-randr --output $screen_output_name --mode $screen_resolution@60
-		fi
-	else
-		xrandr --output $screen_output_name --mode $screen_resolution --rate 60
-	fi
+
+	rr_change 60
 
 	echo "[RRW] Refresh rate changed"
 
-	if ! pgrep "$detected" &> /dev/null 2>&1; then
+	if ! pgrep -f "$detected" &> /dev/null 2>&1; then
 		proc_flag=0
 	fi
 
 	while [ $proc_flag -eq 1 ]
 	do
-		if ! pgrep "$detected" &> /dev/null 2>&1; then
+		if ! pgrep -f "$detected" &> /dev/null 2>&1; then
 			proc_flag=0
 		fi
 		sleep 1
 	done
 
 	echo "[RRW] Game $detected closed, reverting refresh rate"
-
-	if [[ "$session_type" == "wayland" ]]; then
-		if [[ "$desktop_environment" == "KDE" ]]; then
-			kscreen-doctor output.$screen_output_name.mode.$screen_resolution@$screen_refresh_rate
-		else
-			wlr-randr --output $screen_output_name --mode $screen_resolution@$screen_refresh_rate
-		fi
-	else
-		xrandr --output $screen_output_name --mode $screen_resolution --rate $screen_refresh_rate
-	fi
+	
+	rr_change $screen_refresh_rate
+	
 done
