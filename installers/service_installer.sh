@@ -32,6 +32,6 @@ if ! systemctl enable --user rrw.service 2>&1; then
 fi
 
 printf "${green}[RRW-Service-Installer]${normal} RRW Service unit successfully installed. You can run it with:\n"
-printf "\t\t\t\tsystemctl start --user rrw.service\n"
+printf "\t\tsystemctl start --user rrw.service\n"
 printf "${green}[RRW-Service-Installer]${normal}And check its status with:\n"
-printf "\t\t\t\tsystemctl status --user rrw.service\n"
+printf "\t\tsystemctl status --user rrw.service\n"
