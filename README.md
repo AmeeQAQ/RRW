@@ -22,14 +22,14 @@ This repository contains two main scripts: `rrw.sh` and `rrw-jsongen.sh`.
 - `rrw.sh` is the tool itself.
 - `rrw-jsongen.sh` is the JSON generator utility for RRW that it will parse to extract process names and, in the future, custom refresh rates for each title, with the default being 60.
 
-To download this tool, simply clone this repository in your directory of choice via:
+To download this tool, simply clone this repository in your directory of choice with your terminal via:
 ```
-$ git clone https://github.com/AmeeQAQ/RRW.git
+git clone https://github.com/AmeeQAQ/RRW.git
 ```
 
 Once cloned, cd into said directory and execute, with `sudo`, the script called `install.sh`:
 ```
-$ sudo bash install.sh
+sudo bash install.sh
 ```
 
 This script will install anything that RRW needs to work. By default, it copies `rrw.sh` and `rrw-jsongen.sh` into `/usr/local/bin/`. You can modify this location if needed (for example `~/bin/`), but I recommend that one because it's the standard for custom scripts and executables. Besides that, it also creates a new folder in `~/.config/` called `rrw`, where config files such as `games.json` and `rrw.conf` will be stored.
@@ -39,7 +39,7 @@ All of this info is easily accessible using `xrandr --prop`.
 
 Once the installation is done, you'll need to run `rrw-jsongen`, where you'll need to pass the process' names of the games you want to keep track of as parameters of this command. An example of usage would be this one:
 ```
-$ rrw-jsongen foo bar eldenring
+rrw-jsongen foo bar eldenring
 ```
 
 That example would output the following JSON:
@@ -49,13 +49,13 @@ That example would output the following JSON:
 
 Once this is done, you can run RRW by simply running `rrw`:
 ```
-$ rrw
+rrw
 ```
 
 ### Convert RRW into a service unit
 Systemd allows the definition of user units to transform scripts, programs or simple commands into background services. This is a very interesting feature for this tool, and for that purpose, in `/resources` there's an example of a functional RRW user unit. If this sounds like something you want, the script `service_installer.sh` will install and enable that unit. It must be run as a normal user:
 ```
-$ bash service_installer.sh
+bash service_installer.sh
 ```
 
 Needless to say, you are free to add and remove anything you want or need to better suit your own needs. This is a script I did to fix my own problem and I'm sharing it because I think it could be useful to others, be it as it is or as your own modified version. This is open and free software.
