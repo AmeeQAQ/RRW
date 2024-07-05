@@ -47,7 +47,7 @@ That example would output the following JSON:
 {"games":[{"name":"foo"},{"name":"bar"},{"name":"eldenring"}]}
 ```
 
-Once this is done, you can run RRW by simply running `rrw`:
+Once this is done, you can run RRW by simply typing `rrw`:
 ```
 rrw
 ```
