@@ -65,13 +65,11 @@ mapfile game_list < <(jq '.games[].name' $rrw_json | tr -d '"')
 while true
 do
 	echo "[RRW] Looking for games"
-	
-	game_check
-	
+		
 	while [ $proc_flag -eq 0 ]
 	do
 		game_check
-		sleep 1
+		sleep 2
 	done
 
 	echo "[RRW] Game $detected detected"
@@ -80,20 +78,14 @@ do
 
 	echo "[RRW] Refresh rate changed"
 
-	if ! pgrep -f "$detected" &> /dev/null 2>&1; then
-		proc_flag=0
-	fi
-
-	while [ $proc_flag -eq 1 ]
+	while pgrep -f "$detected" &>/dev/null 2>&1
 	do
-		if ! pgrep -f "$detected" &> /dev/null 2>&1; then
-			proc_flag=0
-		fi
-		sleep 1
+		sleep 2
 	done
 
 	echo "[RRW] Game $detected closed, reverting refresh rate"
 	
 	rr_change $screen_refresh_rate
 	
+	proc_flag=0
 done
