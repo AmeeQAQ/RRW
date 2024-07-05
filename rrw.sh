@@ -51,8 +51,8 @@ detected=""
 proc_flag=0
 
 # Gather system data
-session_type = $(echo $XDG_SESSION_TYPE)
-desktop_environment = $(echo $XDG_CURRENT_DESKTOP)
+session_type=$(echo $XDG_SESSION_TYPE)
+desktop_environment=$(echo $XDG_CURRENT_DESKTOP)
 
 screen_output_name=$(grep "screen_output_name" $rrw_dir/rrw.conf | awk '{print $3}')
 screen_resolution=$(grep "screen_resolution" $rrw_dir/rrw.conf | awk '{print $3}')
@@ -66,11 +66,11 @@ while true
 do
 	echo "[RRW] Looking for games"
 	
-	game_check()
+	game_check
 	
 	while [ $proc_flag -eq 0 ]
 	do
-		game_check()
+		game_check
 		sleep 1
 	done
 
