@@ -39,7 +39,7 @@ All of this info is easily accessible using `xrandr`.
 
 Once the installation is done, you'll need to run `rrw-jsongen`, where you'll need to pass the process' names of the games you want to keep track of as parameters of this command. An example of usage would be this one:
 ```
-rrw-jsongen foo bar eldenring
+rrw-jsongen  eldenring
 ```
 
 That example would output the following JSON:
