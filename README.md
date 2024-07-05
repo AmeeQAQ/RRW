@@ -39,12 +39,12 @@ All of this info is easily accessible using `xrandr`.
 
 Once the installation is done, you'll need to run `rrw-jsongen`, where you'll need to pass the process' names of the games you want to keep track of as parameters of this command. An example of usage would be this one:
 ```
-rrw-jsongen  eldenring
+rrw-jsongen eldenring DarkSoulsRemastered
 ```
 
 That example would output the following JSON:
 ```json
-{"games":[{"name":"foo"},{"name":"bar"},{"name":"eldenring"}]}
+{"games":[{"name":"eldenring"},{"name":"DarkSoulsRemastered"}]}
 ```
 
 Once this is done, you can run RRW by simply typing `rrw`:
