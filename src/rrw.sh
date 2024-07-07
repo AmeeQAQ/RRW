@@ -14,6 +14,7 @@ game_check() {
 
 # Function to change the screen's refresh rate
 rr_change() {
+	systemctl --user show-environment
 	if [[ "$session_type" == "wayland" ]]; then
 		if [[ "$desktop_environment" == "KDE" ]]; then
 			kscreen-doctor output.$screen_output_name.mode.$screen_resolution@$1
@@ -23,6 +24,10 @@ rr_change() {
 			wlr-randr --output $screen_output_name --mode $screen_resolution@$1
 		fi
 	else
+		display=$(systemctl --user show-environment | grep DISPLAY | cut -d '=' -f 2)
+		xauth=$(systemctl --user show-environment | grep XAUTHORITY | cut -d '=' -f 2)
+		export DISPLAY=$display
+		export XAUTHORITY=$xauth
 		xrandr --output $screen_output_name --mode $screen_resolution --rate $1
 	fi
 }
@@ -55,6 +60,9 @@ proc_flag=0
 # Gather system data
 session_type=$(echo $XDG_SESSION_TYPE)
 desktop_environment=$(echo $XDG_CURRENT_DESKTOP)
+
+echo $XDG_SESSION_TYPE
+echo $XDG_CURRENT_DESKTOP
 
 screen_output_name=$(grep "screen_output_name" $rrw_dir/rrw.conf | awk '{print $3}')
 screen_resolution=$(grep "screen_resolution" $rrw_dir/rrw.conf | awk '{print $3}')
