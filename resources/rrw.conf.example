@@ -1,6 +1,6 @@
-# 
-# 						RRW's configuration file
-#
+########################################################################################################### 
+##################################### RRW's configuration file ############################################
+###########################################################################################################
 # This file contains some variables necessary for RRW to work
 # Said variables must be changed according to the user's system preferences
 #
@@ -9,10 +9,25 @@
 #
 # There, the primary display, alongside other ports in your GPU, will show up.
 # Be sure to take note of its name, resolution and maximum refresh rate supported,
-# and write them down in their respective variable. There's some placeholder values down below
+# and write them down in their respective variable. 
+# 
+# It is also necessary to set the value of a couple of environmental variables, so that 
+# RRW can correctly identify your desktop and session type.
+# For this purpose, please check XDG_SESSION_TYPE and XDG_CURRENT_DESKTOP by running:
+# 				echo $XDG_SESSION_TYPE
+# 				echo $XDG_CURRENT_DESKTOP
+#
+# And write their values in their respective fields ([env_variables] --> session_type && current_desktop).
+#
+# There's some placeholder values down below
 # to help users recognise where each of these items should go.
 #
 
+[screen_params]
 screen_output_name	= HDMI-0
 screen_resolution 	= 1920x1080
 screen_refresh_rate	= 75
+
+[env_variables]
+session_type 		= x11
+current_desktop		= KDE

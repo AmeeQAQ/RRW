@@ -14,20 +14,15 @@ game_check() {
 
 # Function to change the screen's refresh rate
 rr_change() {
-	systemctl --user show-environment
 	if [[ "$session_type" == "wayland" ]]; then
-		if [[ "$desktop_environment" == "KDE" ]]; then
+		if [[ "$current_desktop" == "KDE" ]]; then
 			kscreen-doctor output.$screen_output_name.mode.$screen_resolution@$1
-		elif echo "$desktop_environment" | grep "GNOME" &>/dev/null; then
+		elif echo "$current_desktop" | grep "GNOME" &>/dev/null; then
 			gnome-randr modify $screen_output_name --mode $screen_resolution@$1
 		else
 			wlr-randr --output $screen_output_name --mode $screen_resolution@$1
 		fi
 	else
-		display=$(systemctl --user show-environment | grep DISPLAY | cut -d '=' -f 2)
-		xauth=$(systemctl --user show-environment | grep XAUTHORITY | cut -d '=' -f 2)
-		export DISPLAY=$display
-		export XAUTHORITY=$xauth
 		xrandr --output $screen_output_name --mode $screen_resolution --rate $1
 	fi
 }
@@ -58,15 +53,21 @@ detected=""
 proc_flag=0
 
 # Gather system data
-session_type=$(echo $XDG_SESSION_TYPE)
-desktop_environment=$(echo $XDG_CURRENT_DESKTOP)
+session_type=$(grep "session_type" $rrw_dir/rrw.conf | awk '{print $3}')
+current_desktop=$(grep "current_desktop" $rrw_dir/rrw.conf | awk '{print $3}')
 
-echo $XDG_SESSION_TYPE
-echo $XDG_CURRENT_DESKTOP
+display=$(systemctl --user show-environment | grep DISPLAY | cut -d '=' -f 2)
+xauth=$(systemctl --user show-environment | grep XAUTHORITY | cut -d '=' -f 2)
 
 screen_output_name=$(grep "screen_output_name" $rrw_dir/rrw.conf | awk '{print $3}')
 screen_resolution=$(grep "screen_resolution" $rrw_dir/rrw.conf | awk '{print $3}')
 screen_refresh_rate=$(grep "screen_refresh_rate" $rrw_dir/rrw.conf | awk '{print $3}')
+
+# Set environmental variables for RRW to work at startup
+export DISPLAY=$display
+export XAUTHORITY=$xauth
+export XDG_SESSION_TYPE=$session_type
+export XDG_CURRENT_DESKTOP=$current_desktop
 
 # Gather games from games.json
 mapfile game_list < <(jq '.games[].name' $rrw_json | tr -d '"')
@@ -75,6 +76,8 @@ mapfile game_list < <(jq '.games[].name' $rrw_json | tr -d '"')
 while true
 do
 	echo "[RRW] Looking for games"
+	echo $session_type
+	echo $current_desktop
 		
 	while [ $proc_flag -eq 0 ]
 	do
