@@ -53,15 +53,15 @@ detected=""
 proc_flag=0
 
 # Gather system data
-session_type=$(grep "session_type" $rrw_dir/rrw.conf | awk '{print $3}')
-current_desktop=$(grep "current_desktop" $rrw_dir/rrw.conf | awk '{print $3}')
+session_type=$(grep -e "^session_type" $rrw_dir/rrw.conf | awk '{print $3}')
+current_desktop=$(grep -e "^current_desktop" $rrw_dir/rrw.conf | awk '{print $3}')
 
 display=$(systemctl --user show-environment | grep DISPLAY | cut -d '=' -f 2)
 xauth=$(systemctl --user show-environment | grep XAUTHORITY | cut -d '=' -f 2)
 
-screen_output_name=$(grep "screen_output_name" $rrw_dir/rrw.conf | awk '{print $3}')
-screen_resolution=$(grep "screen_resolution" $rrw_dir/rrw.conf | awk '{print $3}')
-screen_refresh_rate=$(grep "screen_refresh_rate" $rrw_dir/rrw.conf | awk '{print $3}')
+screen_output_name=$(grep -e "^screen_output_name" $rrw_dir/rrw.conf | awk '{print $3}')
+screen_resolution=$(grep -e "^screen_resolution" $rrw_dir/rrw.conf | awk '{print $3}')
+screen_refresh_rate=$(grep -e "^screen_refresh_rate" $rrw_dir/rrw.conf | awk '{print $3}')
 
 # Set environmental variables for RRW to work at startup
 export DISPLAY=$display
@@ -76,9 +76,7 @@ mapfile game_list < <(jq '.games[].name' $rrw_json | tr -d '"')
 while true
 do
 	echo "[RRW] Looking for games"
-	echo $session_type
-	echo $current_desktop
-		
+	
 	while [ $proc_flag -eq 0 ]
 	do
 		game_check
