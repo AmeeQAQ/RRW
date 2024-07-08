@@ -65,5 +65,3 @@ echo 'Run "rrw-jsongen" to generate the JSON necessary for RRW to work.'
 printf "\trrw-jsongen -h, --help for further instructions.\n"
 echo
 echo 'Remember to modify rrw.conf @ ~/.config/rrw/'
-echo
-echo 'If you want to make RRW a background process, follow the instructions inside rrw.service.example or run service_installer.sh'

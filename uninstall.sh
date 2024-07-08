@@ -36,13 +36,5 @@ if [[ "$confirm" == "y" ]]; then
 else
 	printf "${yellow}[RRW-Uninstall]${normal} Aborting removal of config dir.\n"
 fi
-# Check if a service unit was created
-if systemctl list-unit-files --user -M $(echo $SUDO_USER)@ | grep rrw.service 2>&1; then
-	# If it exists, remove it
-	printf "${yellow}[RRW-Uninstall]${normal} Detected user unit. Proceeding with disable and removal...\n"
-	systemctl disable --user -M $(echo $SUDO_USER)@ rrw.service
-	rm $2/.config/systemd/user/rrw.service
-	printf "${green}[RRW-Uninstall]${normal} User unit removed successfully.\n"
-fi
 
 printf "${green}RRW has been successfully uninstalled.\n"
