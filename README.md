@@ -69,7 +69,7 @@ This package is functional but still early in development. Thus, compatibility e
 All of them will, hopefully, be addressed in the near future.
 
 Some planned upgrades are:
-- [ ] Online/offline game database to map game name to process name (would be used by rrw-jsongen.sh).
-- [ ] Auto-fetch default primary display and env. settings.
+- [ ] Offline game database to map game name to process name (would be used by rrw-jsongen.sh).
+- [ ] Auto-fetch default primary display settings and session info.
 - [ ] Generation of logs.
 - [ ] Packaging/Deploying to community repos for an easier installation (like the AUR).
