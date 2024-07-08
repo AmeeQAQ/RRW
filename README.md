@@ -52,16 +52,6 @@ Once this is done, you can run RRW by simply typing `rrw`:
 rrw
 ```
 
-### Convert RRW into a service unit
-Systemd allows the definition of user units to transform scripts, programs or simple commands into background services. This is a very interesting feature for this tool, and for that purpose, in `/resources` there's an example of a functional RRW user unit. If this sounds like something you want, the script `service_installer.sh`, under `/installers` will install and enable that unit. It must be run as a normal user:
-```
-bash installers/service_installer.sh
-```
-
-It's very important to run this script from the main RRW folder and not inside /installers to not break the paths defined inside the script.
-
-Needless to say, you are free to add and remove anything you want or need to better suit your own needs. This is a script I did to fix my own problem and I'm sharing it because I think it could be useful to others, be it as it is or as your own modified version. This is open and free software.
-
 ## Wayland support
 Depending on the desktop enviroment you are using, the wayland compositor might be one or the other. While in X11 `xrandr` works for any DE, in Wayland this is different, and every DE or WM has its own compositor or uses [wlroots](https://gitlab.freedesktop.org/wlroots/wlroots). I expect wlroots to be the most used library, which allows for `wlr-randr` to be the main dependency/tool for most environments, while having the possibility of accomodating the script for other specific tools provided by the DEs, like `kscreen-doctor`, or community-driven ones like `gnome-randr-rust`.
 
