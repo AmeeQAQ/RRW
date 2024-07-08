@@ -29,5 +29,6 @@ screen_resolution 	= 1920x1080
 screen_refresh_rate	= 75
 
 [env_variables]
+display				= :0
 session_type 		= x11
 current_desktop		= KDE

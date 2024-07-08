@@ -52,11 +52,13 @@ detected=""
 
 proc_flag=0
 
+systemctl --user show-environment
+
 # Gather system data
 session_type=$(grep -e "^session_type" $rrw_dir/rrw.conf | awk '{print $3}')
 current_desktop=$(grep -e "^current_desktop" $rrw_dir/rrw.conf | awk '{print $3}')
+display=$(grep -e "^display" $rrw_dir/rrw.conf | awk '{print $3}')
 
-display=$(systemctl --user show-environment | grep DISPLAY | cut -d '=' -f 2)
 xauth=$(systemctl --user show-environment | grep XAUTHORITY | cut -d '=' -f 2)
 
 screen_output_name=$(grep -e "^screen_output_name" $rrw_dir/rrw.conf | awk '{print $3}')
@@ -77,6 +79,15 @@ while true
 do
 	echo "[RRW] Looking for games"
 	
+	echo "var $display"
+	echo "env $DISPLAY"
+	echo "var $xauth"
+	echo "env $XAUTHORITY"
+	echo "var $session_type"
+	echo "env $XDG_SESSION_TYPE"
+	echo "var $current_desktop"
+	echo "env $XDG_CURRENT_DESKTOP"
+
 	while [ $proc_flag -eq 0 ]
 	do
 		game_check

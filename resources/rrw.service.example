@@ -16,7 +16,10 @@
 Description=Automatic refresh rate changer for Linux based on game launched
 
 [Service]
+Environment=DISPLAY=:0
 ExecStart=/usr/local/bin/rrw
+Restart=on-failure
+RestartSec=1s
 
 [Install]
 WantedBy=default.target
