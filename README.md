@@ -56,7 +56,7 @@ rrw
 Depending on the desktop enviroment you are using, the wayland compositor might be one or the other. While in X11 `xrandr` works for any DE, in Wayland this is different, and every DE or WM has its own compositor or uses [wlroots](https://gitlab.freedesktop.org/wlroots/wlroots). I expect wlroots to be the most used library, which allows for `wlr-randr` to be the main dependency/tool for most environments, while having the possibility of accomodating the script for other specific tools provided by the DEs, like `kscreen-doctor`, or community-driven ones like `gnome-randr-rust`.
 
 Nevertheless, as more DEs start adopting Wayland as their main display server, or offer some solid support for it, I'll be filling up this list with the added dependencies for Wayland sessions:
-- KDE: `kscreen-doctor`
+- KDE: [kscreen-doctor](https://tldr.dendron.so/notes/linux.kscreen-doctor.html)
 - Gnome: [gnome-randr-rust](https://github.com/maxwellainatchi/gnome-randr-rust)
 - wlroots compositors (Hyprland, sway,...): [wlr-randr](https://sr.ht/~emersion/wlr-randr/)
 
